@@ -1,19 +1,22 @@
 package com.duvi.vuttr.domain;
 
+import org.springframework.validation.ObjectError;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ApiError {
-    private List<String> errors;
+    private List<ObjectError> errors;
 
-    public ApiError(List<String> errors) {
+    public ApiError(List<ObjectError> errors ) {
         this.errors = errors;
     }
 
-    public List<String> getErrors() {
+    public List<ObjectError> getErrors() {
         return this.errors;
     }
 
-    public void setErrors(List<String> errors) {
+    public void setErrors(List<ObjectError> errors) {
         this.errors = errors;
     }
 }
