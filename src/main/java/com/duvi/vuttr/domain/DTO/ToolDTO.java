@@ -6,6 +6,6 @@ import java.util.List;
 
 public record ToolDTO(String title, String link, String description, List<String> tags) {
     public ToolDTO(Tool tool) {
-        this(tool.getTitle(), tool.getLink(), tool.getDescription(), , tool.getTags());
+        this(tool.getTitle(), tool.getLink(), tool.getDescription(), tool.getTags());
     }
 }

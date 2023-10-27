@@ -3,7 +3,7 @@ package com.duvi.vuttr.controller.exception;
 public class ToolAlreadyExistsException extends Exception {
 
     String title;
-    public ToolAlreadyExistsException createWith(String title) {
+    public static ToolAlreadyExistsException createWith(String title) {
         return new ToolAlreadyExistsException(title);
     }
 

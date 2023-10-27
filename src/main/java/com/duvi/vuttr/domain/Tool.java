@@ -10,8 +10,10 @@ import lombok.Setter;
 import java.util.List;
 
 
-@Entity
+@Table(name = "tools")
+@Entity(name = "tool")
 @Getter
+@Setter
 @NoArgsConstructor
 public class Tool {
     @Id
@@ -27,5 +29,12 @@ public class Tool {
         this.link = toolDTO.link();
         this.description = toolDTO.description();
         this.tags = toolDTO.tags();
+    }
+
+    public void updateTool(Tool newTool) {
+        this.title = newTool.getTitle();
+        this.link = newTool.getLink();
+        this.description = newTool.getDescription();
+        this.tags = newTool.getTags();
     }
 }
