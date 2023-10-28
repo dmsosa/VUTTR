@@ -1,10 +1,13 @@
 package com.duvi.vuttr.controller;
 
 
+import com.duvi.vuttr.controller.exception.UserAlreadyExistsException;
+import com.duvi.vuttr.controller.exception.UserNotFoundException;
 import com.duvi.vuttr.domain.user.*;
 import com.duvi.vuttr.infra.security.TokenService;
 import com.duvi.vuttr.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +32,10 @@ public class AuthController {
     TokenService tokenService;
 
     @PostMapping("/login")
-    ResponseEntity loginUser(@RequestBody AuthDTO data) {
+    ResponseEntity loginUser(@RequestBody AuthDTO data) throws UserNotFoundException {
+        if (userRepository.findByLogin(data.login()) == null ){
+            throw new UserNotFoundException(data.login());
+        }
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = authenticationManager.authenticate(usernamePassword);
         String token = tokenService.generateToken((User) auth.getPrincipal());
@@ -37,14 +43,15 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    ResponseEntity registerUser(@RequestBody RegisterDTO data) {
-        if (userRepository.findByEmail(data.email()) != null ||
-                userRepository.findByUsername(data.username()) != null) {
-            return ResponseEntity.badRequest().build();
+    ResponseEntity<User> registerUser(@RequestBody RegisterDTO data) throws UserAlreadyExistsException {
+        if (userRepository.findByLogin(data.login()) != null) {
+            throw new UserAlreadyExistsException(data.login());
         }
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
         User newUser = new User(data, encryptedPassword);
         userRepository.save(newUser);
-        return ResponseEntity.ok().build();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Creation:","Successful");
+        return new ResponseEntity<>(newUser, headers, HttpStatus.CREATED);
     }
 }

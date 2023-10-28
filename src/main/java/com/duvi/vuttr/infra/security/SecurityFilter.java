@@ -9,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+
+@Service
 public class SecurityFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -25,7 +28,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         String token = getToken(request);
         if (token != null) {
             String username = tokenService.validateToken(token);
-            UserDetails user = userRepository.findByUsername(username);
+            UserDetails user = userRepository.findByLogin(username);
             var auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(auth);
         }

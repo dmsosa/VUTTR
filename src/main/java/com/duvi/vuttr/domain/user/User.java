@@ -25,14 +25,13 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    private String username;
+    private String login;
     private String email;
     private String password;
     private UserRole role;
 
     public User(RegisterDTO registerDTO, String encryptedPassword) {
-        this.username = registerDTO.username();
-        this.email = registerDTO.email();
+        this.login = registerDTO.login();
         this.password = encryptedPassword;
         this.role = registerDTO.role();
     }
@@ -44,6 +43,11 @@ public class User implements UserDetails {
         else {
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));
         }
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 
     @Override

@@ -1,4 +1,4 @@
 package com.duvi.vuttr.domain.user;
 
-public record RegisterDTO (String username, String email, String password, UserRole role) {
+public record RegisterDTO (String login, String password, UserRole  role) {
 }

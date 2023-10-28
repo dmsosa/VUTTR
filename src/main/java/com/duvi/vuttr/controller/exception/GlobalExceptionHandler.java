@@ -37,7 +37,18 @@ public class GlobalExceptionHandler {
             ToolAlreadyExistsException taee = (ToolAlreadyExistsException) ex;
 
             return handleToolAlreadyExists(taee, headers, status, request);
-        } else {
+        } else if (ex instanceof UserNotFoundException) {
+            HttpStatus status = HttpStatus.NOT_FOUND;
+            UserNotFoundException unfe = (UserNotFoundException) ex;
+            return handleUserNotFound(unfe, headers, status, request);
+        }
+        else if (ex instanceof UserAlreadyExistsException) {
+            HttpStatus status = HttpStatus.NOT_FOUND;
+            UserAlreadyExistsException uaee = (UserAlreadyExistsException) ex;
+            return handleUserAlreadyExists(uaee, headers, status, request);
+        }
+
+        else {
             if (LOGGER.isWarnEnabled()) {
                 LOGGER.warn("Unbekanntes Exception, schau mal!: " + ex.getClass().getName());
             }
@@ -53,12 +64,24 @@ public class GlobalExceptionHandler {
         List<ObjectError> errorList = Collections.singletonList(error);
         return handleExceptionInternal(tnfe, new ApiError(errorList), headers, status, request);
     }
+    public ResponseEntity<ApiError> handleUserNotFound(UserNotFoundException unfe, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        ObjectError error = new ObjectError("User Nicht Gefunden:", unfe.getMessage());
+        List<ObjectError> errorList = Collections.singletonList(error);
+        return handleExceptionInternal(unfe, new ApiError(errorList), headers, status, request);
+    }
+
 
     public ResponseEntity<ApiError> handleToolAlreadyExists(ToolAlreadyExistsException taee, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ObjectError error = new ObjectError("Tool Not Found Error", taee.getMessage());
         List<ObjectError> errorList = Collections.singletonList(error);
         return handleExceptionInternal(taee, new ApiError(errorList), headers, status, request);
     }
+    public ResponseEntity<ApiError> handleUserAlreadyExists(UserAlreadyExistsException uaee, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        ObjectError error = new ObjectError("User Schon Existiert:", uaee.getMessage());
+        List<ObjectError> errorList = Collections.singletonList(error);
+        return handleExceptionInternal(uaee, new ApiError(errorList), headers, status, request);
+    }
+
 
     public ResponseEntity<ApiError> handleExceptionInternal(Exception ex, @Nullable ApiError body, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
