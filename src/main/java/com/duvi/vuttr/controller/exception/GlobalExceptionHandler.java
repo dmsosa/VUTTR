@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
             return handleUserNotFound(unfe, headers, status, request);
         }
         else if (ex instanceof UserAlreadyExistsException) {
-            HttpStatus status = HttpStatus.NOT_FOUND;
+            HttpStatus status = HttpStatus.NOT_ACCEPTABLE;
             UserAlreadyExistsException uaee = (UserAlreadyExistsException) ex;
             return handleUserAlreadyExists(uaee, headers, status, request);
         }

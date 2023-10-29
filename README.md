@@ -27,10 +27,25 @@ A tool looks like this:
 
 This API is easy to use, the steps are below:
 
+### Includes:
+
+- PostgreSQL database
+- Migrations with Flyway
+- RESTful API (Spring)
+- Authentication with Spring Security and JWT
+- Unit Tests
+- Swagger description
+
 #### Steps:
 
 1. Clone this repository in a directory of your preference
 2. Open your preferred shell or terminal
 3. Go to the directory the repository was cloned in
 4. Run `mvwn clean`, then run `mvwn spring-boot:run`
-5. The API is listening in the port 3000, use your preferred tool to send requests to it
+5. The API is listening in the port 8080, use your preferred tool to send requests to it
+
+:sunrise:
+:tool:
+
+---
+
