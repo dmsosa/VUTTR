@@ -1,0 +1,202 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: MyEssenAPI Documentation
+    url: https://virtserver.swaggerhub.com/dmsosa/MyEssenAPI/1.0.0
+info:
+  description: MyEssenAPI allows you to retrieve information about any food
+  version: "1.0.0"
+  title: MyEssenAPI
+  contact:
+    email: dmsosa21@outlook.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+paths:
+  /api/food:
+    get:
+      summary: get all foods
+      operationId: searchFood
+      description: |
+        By passing in the appropiate name, you can retrieve the information for a given food
+      parameters:
+        - in: query
+          name: foodName
+          description: the name of the food we have to look for
+          required: true
+          schema:
+            type: string
+            example: banana da madeira
+      responses:
+        '200':
+          description: search results matching the given food name
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Food'
+        '400':
+          description: bad input parameter
+        '404':
+          description: food not found
+    post:
+      tags:
+        - admins
+      summary: adds a food to the catalogue
+      operationId: addFood
+      description: Adds a food to the system
+      responses:
+        '201':
+          description: food stored successfully
+        '400':
+          description: 'invalid input, invalid object'
+        '409':
+          description: food already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Food'
+              description: Food to add
+components:
+  schemas:
+    Category:
+      type: string
+      enum:
+        - defaultMeal
+        - packagedFood
+        - fastFood
+    Nutrients:
+      type: object
+      required:
+        - KCAL
+        - PROTEIN
+        - CHOCDF
+        - FAT
+        - FIBER
+      properties:
+        KCAL:
+          type: number
+          example: 89
+        PROTEIN:
+          type: number
+          example: 0.5
+        CHOCDF:
+          type: number
+          example: 16
+        FAT:
+          type: number
+          example: 0.1
+        FIBER:
+          type: number
+          example: 4
+    Food:
+      type: object
+      required:
+        - id
+        - name
+        - nutrients
+        - image
+      properties:
+        id:
+          type: number
+          example: 11
+        name:
+          type: string
+          example: Banana da Madeira
+        nutrients:
+          $ref: '#/components/schemas/Nutrients'
+        image:
+          type: string
+          format: url
+          example: 'https://feed.continente.pt/media/jsbmmoot/banana-da-madeir.jpg'
+    Meal:
+      type: object
+      required:
+        - id
+        - name
+        - nutrients
+        - ingredients
+      properties:
+        id:
+          type: number
+          example: 35
+        name:
+          type: string
+          example: Baked Potatoes
+        nutrients:
+          $ref: '#/components/schemas/Nutrients'
+        category:
+          $ref: '#/components/schemas/Category'
+          example: defaultMeal
+        content:
+          type: array
+          items:
+            type: string
+          example: ['Potato', 'Paprika', 'Salt']
+    User:
+      type: object
+      required:
+        - id
+        - username
+        - email
+        - password
+        - bio
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        username:
+          type: string
+          example: usertest1
+        email:
+          type: string
+          example: user@fake.com
+        password:
+          type: string
+          example: fake123
+        bio:
+          type: string
+          example: Example of a bio...
+
+    InventoryItem:
+      type: object
+      required:
+        - id
+        - name
+        - manufacturer
+        - releaseDate
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          type: string
+          example: Widget Adapter
+        releaseDate:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+        manufacturer:
+          $ref: '#/components/schemas/Manufacturer'
+    Manufacturer:
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: ACME Corporation
+        homePage:
+          type: string
+          format: url
+          example: 'https://www.acme-corp.com'
+        phone:
+          type: string
+          example: 408-867-5309
+      type: object

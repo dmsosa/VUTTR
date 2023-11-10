@@ -6,6 +6,7 @@ import com.duvi.vuttr.controller.exception.UserNotFoundException;
 import com.duvi.vuttr.domain.user.*;
 import com.duvi.vuttr.infra.security.TokenService;
 import com.duvi.vuttr.repository.UserRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 @RequestMapping("auth")
