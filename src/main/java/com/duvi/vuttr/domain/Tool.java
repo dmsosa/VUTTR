@@ -16,14 +16,11 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@Schema(description = "Tools characteristics",
-name = "Tool")
 public class Tool {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Schema(name = "Tool title", description = "Buchtitel", example = "Notion")
     private String title;
     private String link;
     private String description;

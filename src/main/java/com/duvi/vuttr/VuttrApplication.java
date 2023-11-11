@@ -12,8 +12,7 @@ import org.springdoc.core.providers.ObjectMapperProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
-import org.springframework.context.annotation.Bean;
+
 
 import java.util.Optional;
 
@@ -24,25 +23,6 @@ public class VuttrApplication {
 		SpringApplication.run(VuttrApplication.class, args);
 	}
 
-	@Bean
-	SpringDocConfiguration springDocConfiguration(){
-		return new SpringDocConfiguration();
-	}
-
-	@Bean
-	SpringDocConfigProperties springDocConfigProperties() {
-		return new SpringDocConfigProperties();
-	}
-
-	@Bean
-	ObjectMapperProvider objectMapperProvider(SpringDocConfigProperties springDocConfigProperties){
-		return new ObjectMapperProvider(springDocConfigProperties);
-	}
-
-	@Bean
-	SpringDocUIConfiguration SpringDocUIConfiguration(Optional<SwaggerUiConfigProperties> optionalSwaggerUiConfigProperties){
-		return new SpringDocUIConfiguration(optionalSwaggerUiConfigProperties);
-	}
 
 
 }

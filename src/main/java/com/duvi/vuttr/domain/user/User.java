@@ -1,6 +1,7 @@
 package com.duvi.vuttr.domain.user;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -36,6 +37,7 @@ public class User implements UserDetails {
         this.role = registerDTO.role();
     }
     @Override
+    @Schema(hidden = true)
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.role == UserRole.ADMIN) {
             return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
@@ -51,21 +53,25 @@ public class User implements UserDetails {
     }
 
     @Override
+    @Schema(hidden = true)
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @Schema(hidden = true)
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @Schema(hidden = true)
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @Schema(hidden = true)
     public boolean isEnabled() {
         return true;
     }
