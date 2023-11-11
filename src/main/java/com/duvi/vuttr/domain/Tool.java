@@ -2,6 +2,7 @@ package com.duvi.vuttr.domain;
 
 
 import com.duvi.vuttr.domain.DTO.ToolDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@Schema(name = "Tool Object", description = "Ein cooles tool")
 public class Tool {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
